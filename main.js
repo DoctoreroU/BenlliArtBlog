@@ -296,6 +296,17 @@ function initializeAdmin() {
     const addPaintingForm = document.getElementById('addPaintingForm');
     const logoutBtn = document.getElementById('logoutBtn');
 
+    // Verificar si el admin ya está autenticado desde localStorage
+    if (localStorage.getItem('adminAuthenticated') === 'true') {
+        adminAuthenticated = true;
+        adminPassword = localStorage.getItem('adminPassword') || '';
+        document.body.classList.add('admin-active');
+        document.getElementById('adminLogin').classList.add('hidden');
+        document.getElementById('adminPanel').classList.remove('hidden');
+        loadPaintingsList();
+        renderPaintings();
+    }
+
     // Abrir modal de admin
     adminBtn.addEventListener('click', () => {
         adminModal.classList.remove('hidden');
@@ -304,10 +315,6 @@ function initializeAdmin() {
     // Cerrar modal
     closeAdminModal.addEventListener('click', () => {
         adminModal.classList.add('hidden');
-        adminAuthenticated = false;
-        document.getElementById('adminLogin').classList.remove('hidden');
-        document.getElementById('adminPanel').classList.add('hidden');
-        loginForm.reset();
     });
 
     // Cerrar modal al hacer click fuera
@@ -348,6 +355,9 @@ function initializeAdmin() {
             document.getElementById('adminPanel').classList.remove('hidden');
             loginForm.reset();
             showNotification('¡Bienvenido Admin!', 'success');
+            // Guardar en localStorage
+            localStorage.setItem('adminAuthenticated', 'true');
+            localStorage.setItem('adminPassword', adminPassword);
             loadPaintingsList();
             renderPaintings();
         } catch (error) {
@@ -364,6 +374,9 @@ function initializeAdmin() {
         document.getElementById('adminLogin').classList.remove('hidden');
         loginForm.reset();
         showNotification('Sesión cerrada', 'success');
+        // Limpiar localStorage
+        localStorage.removeItem('adminAuthenticated');
+        localStorage.removeItem('adminPassword');
     });
 
     // Agregar nueva pintura
