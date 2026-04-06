@@ -1,0 +1,769 @@
+/* Variables de colores */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #e74c3c;
+    --accent-color: #3498db;
+    --light-bg: #ecf0f1;
+    --white: #ffffff;
+    --border-color: #bdc3c7;
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+}
+
+/* Reset de estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.admin-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.admin-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* Container principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+/* Grid de galerí */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+/* Tarjeta de arte */
+.art-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: grid;
+    grid-template-columns: minmax(320px, 420px) 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 0;
+    align-items: start;
+    height: auto;
+}
+
+.art-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+}
+
+/* Imagen de la pintura */
+.card-image {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    background: var(--light-bg);
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    border-radius: 12px 0 0 0;
+    border-right: 1px solid var(--border-color);
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.art-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+/* Contenido de la tarjeta */
+.card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    border-radius: 0 0 0 12px;
+    border-right: 1px solid var(--border-color);
+}
+
+
+.art-title {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.art-description {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* Sección de comentarios */
+.comments-section {
+    padding: 1.5rem;
+    background: #fafafa;
+    flex-shrink: 0;
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    border-radius: 0 12px 12px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.comments-section h3 {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.comments-section h3::before {
+    content: "💬";
+    margin-right: 0.5rem;
+}
+
+/* Lista de comentarios */
+.comments-list {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding-right: 0.5rem;
+}
+
+.comments-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.comments-list::-webkit-scrollbar-track {
+    background: var(--light-bg);
+    border-radius: 3px;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.comments-list::-webkit-scrollbar-thumb:hover {
+    background: var(--text-light);
+}
+
+/* Comentario individual */
+.comment {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: var(--white);
+    border-left: 3px solid var(--accent-color);
+    border-radius: 4px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.comment-header strong {
+    color: var(--primary-color);
+}
+
+.comment-date {
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.comment-text {
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Formulario de comentarios */
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.comment-form input,
+.comment-form textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+}
+
+.comment-form input:focus,
+.comment-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.comment-form button {
+    padding: 0.75rem 1.5rem;
+    background: var(--accent-color);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.comment-form button:hover:not(:disabled) {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.comment-form button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.comment-form button:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Footer */
+.footer {
+    background: var(--primary-color);
+    color: var(--white);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+    border-top: 4px solid var(--secondary-color);
+}
+
+.footer p {
+    opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .container {
+        padding: 1.5rem 1rem;
+    }
+
+    .art-card {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+
+    .card-image {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        border-radius: 12px 12px 0 0;
+        border-right: none;
+    }
+
+    .card-content {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        border-radius: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .comments-section {
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+        border-radius: 0 0 12px 12px;
+        gap: 0;
+    }
+
+    .art-card {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 2rem 1rem;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .header p {
+        font-size: 1rem;
+    }
+
+    .art-title {
+        font-size: 1.2rem;
+    }
+
+    .card-image {
+        height: 250px;
+    }
+
+    .comment-form {
+        gap: 0.5rem;
+    }
+
+    .comments-list {
+        margin-bottom: 1rem;
+    }
+}
+
+/* ==================== MODAL DE ADMINISTRACIÓN ==================== */
+
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideInUp 0.3s ease;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    border-bottom: 2px solid var(--light-bg);
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.close-btn:hover {
+    transform: rotate(90deg);
+}
+
+/* Admin Sections */
+.admin-section {
+    padding: 2rem;
+}
+
+.admin-section.hidden {
+    display: none;
+}
+
+.admin-section h3 {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+}
+
+.admin-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.admin-top h3 {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.btn-logout {
+    background: #e74c3c;
+    color: var(--white);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* Formularios de Admin */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+
+.form-group small {
+    color: var(--text-light);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.admin-form input,
+.admin-form textarea {
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.admin-form input[type="password"]:focus,
+.admin-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: var(--white);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.btn-primary:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Input de Archivo */
+.file-input-wrapper {
+    position: relative;
+    display: block;
+}
+
+.file-input-wrapper input[type="file"] {
+    display: none;
+}
+
+.file-label {
+    display: block;
+    padding: 0.75rem;
+    border: 2px dashed var(--accent-color);
+    border-radius: 6px;
+    background: rgba(52, 152, 219, 0.05);
+    color: var(--accent-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.file-input-wrapper input[type="file"]:not([disabled]) {
+    cursor: pointer;
+}
+
+.file-input-wrapper:hover .file-label {
+    background: rgba(52, 152, 219, 0.1);
+    border-color: #2980b9;
+}
+
+/* Vista Previa de Imagen */
+.image-preview {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--light-bg);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.paintings-list {
+    border-top: 2px solid var(--light-bg);
+    padding-top: 2rem;
+}
+
+.paintings-list h3 {
+    margin-top: 0;
+}
+
+.painting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--light-bg);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.painting-item:hover {
+    background: #e8e8e8;
+    transform: translateX(4px);
+}
+
+.painting-item-info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex: 1;
+}
+
+.painting-item-info img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 2px solid var(--border-color);
+}
+
+.painting-item-info h4 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+.painting-item-info p {
+    margin: 0.25rem 0 0 0;
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.btn-delete {
+    background: #e74c3c;
+    color: var(--white);
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-delete:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+
+    .modal-header {
+        padding: 1.5rem;
+    }
+
+    .modal-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .admin-section {
+        padding: 1.5rem;
+    }
+
+    .admin-top {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .btn-logout {
+        width: 100%;
+    }
+
+    .painting-item {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .painting-item-info {
+        width: 100%;
+    }
+
+    .btn-delete {
+        width: 100%;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .admin-btn {
+        width: 100%;
+    }
+}

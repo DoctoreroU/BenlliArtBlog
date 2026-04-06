@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BenlliArt - Galería de Pinturas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1>BenlliArt</h1>
+                <p>Galería de Pinturas</p>
+            </div>
+            <button class="admin-btn" id="adminBtn">⚙️ Admin</button>
+        </div>
+    </header>
+
+    <!-- Modal de Administración -->
+    <div id="adminModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Panel de Administración</h2>
+                <button class="close-btn" id="closeAdminModal">&times;</button>
+            </div>
+
+            <!-- Sección de Login -->
+            <div id="adminLogin" class="admin-section">
+                <h3>Acceso Restringido</h3>
+                <form id="loginForm" class="admin-form">
+                    <input type="password" id="adminPassword" placeholder="Ingresa la contraseña de admin" required>
+                    <button type="submit" class="btn-primary">Acceder</button>
+                </form>
+            </div>
+
+            <!-- Sección de Gestión (oculta hasta login) -->
+            <div id="adminPanel" class="admin-section hidden">
+                <div class="admin-top">
+                    <h3>Agregar Nueva Pintura</h3>
+                    <button id="logoutBtn" class="btn-logout">Cerrar Sesión</button>
+                </div>
+
+                <form id="addPaintingForm" class="admin-form">
+                    <div class="form-group">
+                        <label for="paintingTitle">Título de la Pintura:</label>
+                        <input type="text" id="paintingTitle" placeholder="Ej: Amanecer en las Montañas" required maxlength="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paintingDescription">Descripción:</label>
+                        <textarea id="paintingDescription" placeholder="Describe tu obra..." required maxlength="1000" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paintingImage">Imagen de la Pintura:</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="paintingImage" accept="image/*" required>
+                            <span class="file-label">Selecciona una imagen (JPG, PNG, GIF, WebP)</span>
+                        </div>
+                        <small>Máximo 5MB. Formatos: JPG, PNG, GIF, WebP</small>
+                    </div>
+
+                    <div class="image-preview" id="imagePreview" style="display: none;">
+                        <img id="previewImg" src="" alt="Vista previa">
+                    </div>
+
+                    <button type="submit" class="btn-primary">Agregar Pintura</button>
+                </form>
+
+                <div id="paintingsList" class="paintings-list">
+                    <h3>Tus Pinturas</h3>
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <section class="gallery-grid">
+            <!-- Las pinturas se cargarán dinámicamente desde la API -->
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 BenlliArt. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
