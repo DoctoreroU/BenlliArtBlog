@@ -238,7 +238,27 @@ body {
     font-size: 0.9rem;
     line-height: 1.4;
 }
+.comment-delete {
+    display: none;
+    margin-top: 0.75rem;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid rgba(231, 76, 60, 0.8);
+    background: #fff5f5;
+    color: #c0392b;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
 
+.comment-delete:hover {
+    background: #fbeaea;
+    transform: translateY(-1px);
+}
+
+body.admin-active .comment-delete {
+    display: inline-flex;
+}
 /* Formulario de comentarios */
 .comment-form {
     display: flex;

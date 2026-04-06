@@ -27,13 +27,18 @@ function renderPaintings() {
     gallery.innerHTML = '';
 
     paintings.forEach(painting => {
-        const cardHTML = createPaintingCard(painting);
-        gallery.innerHTML += cardHTML;
+        gallery.innerHTML += createPaintingCard(painting);
     });
 
     // Agregar event listeners a los formularios
-    document.querySelectorAll('.comment-form').forEach((form, index) => {
-        form.addEventListener('submit', (e) => handleCommentSubmit(e, paintings[index].id));
+    document.querySelectorAll('.comment-form').forEach((form) => {
+        const paintingId = Number(form.dataset.paintingId);
+        form.addEventListener('submit', (e) => handleCommentSubmit(e, paintingId));
+    });
+
+    // Agregar listeners para eliminar comentarios
+    document.querySelectorAll('.comment-delete').forEach(button => {
+        button.addEventListener('click', handleDeleteComment);
     });
 }
 
@@ -75,12 +80,13 @@ function createCommentHTML(comment) {
     const formattedDate = formatDate(date);
 
     return `
-        <div class="comment" data-comment-id="${comment.id}">
+        <div class="comment" data-comment-id="${comment.id}" data-painting-id="${comment.painting_id}">
             <div class="comment-header">
                 <strong>${escapeHTML(comment.author)}</strong>
                 <span class="comment-date">${formattedDate}</span>
             </div>
             <p class="comment-text">${escapeHTML(comment.comment)}</p>
+            <button type="button" class="comment-delete" data-comment-id="${comment.id}" data-painting-id="${comment.painting_id}">Eliminar</button>
         </div>
     `;
 }
@@ -142,6 +148,9 @@ async function handleCommentSubmit(e, paintingId) {
         // Actualizar la pintura en el array
         const paintingIndex = paintings.findIndex(p => p.id === paintingId);
         if (paintingIndex !== -1) {
+            if (!Array.isArray(paintings[paintingIndex].comments)) {
+                paintings[paintingIndex].comments = [];
+            }
             paintings[paintingIndex].comments.unshift(newComment);
         }
 
@@ -151,10 +160,9 @@ async function handleCommentSubmit(e, paintingId) {
             const newCommentHTML = createCommentHTML(newComment);
             commentsList.innerHTML = newCommentHTML + commentsList.innerHTML;
 
-            // Actualizar contador
             const card = form.closest('.art-card');
             const title = card.querySelector('.comments-section h3');
-            const count = card.querySelector('.comments-list .comment').length;
+            const count = paintingIndex !== -1 ? paintings[paintingIndex].comments.length : card.querySelectorAll('.comments-list .comment').length;
             title.textContent = `Comentarios (${count})`;
         }
 
@@ -168,6 +176,57 @@ async function handleCommentSubmit(e, paintingId) {
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Enviar comentario';
+    }
+}
+
+async function handleDeleteComment(event) {
+    const button = event.currentTarget;
+    const commentId = button.dataset.commentId;
+    const paintingId = Number(button.dataset.paintingId);
+
+    if (!adminAuthenticated || !adminPassword) {
+        showNotification('Necesitas iniciar sesión como admin para eliminar comentarios', 'error');
+        return;
+    }
+
+    if (!confirm('¿Eliminar este comentario? Esta acción no se puede deshacer.')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/comments/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password: adminPassword })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Error al eliminar comentario');
+        }
+
+        // Actualizar datos en memoria
+        const paintingIndex = paintings.findIndex(p => p.id === paintingId);
+        if (paintingIndex !== -1 && Array.isArray(paintings[paintingIndex].comments)) {
+            paintings[paintingIndex].comments = paintings[paintingIndex].comments.filter(c => String(c.id) !== String(commentId));
+        }
+
+        const commentElement = button.closest('.comment');
+        if (commentElement) {
+            commentElement.remove();
+        }
+
+        const card = button.closest('.art-card');
+        const title = card.querySelector('.comments-section h3');
+        const count = paintingIndex !== -1 ? paintings[paintingIndex].comments.length : card.querySelectorAll('.comments-list .comment').length;
+        title.textContent = `Comentarios (${count})`;
+
+        showNotification('Comentario eliminado', 'success');
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification(error.message || 'Error al eliminar comentario', 'error');
     }
 }
 
@@ -284,11 +343,13 @@ function initializeAdmin() {
 
             adminAuthenticated = true;
             adminPassword = password;
+            document.body.classList.add('admin-active');
             document.getElementById('adminLogin').classList.add('hidden');
             document.getElementById('adminPanel').classList.remove('hidden');
             loginForm.reset();
             showNotification('¡Bienvenido Admin!', 'success');
             loadPaintingsList();
+            renderPaintings();
         } catch (error) {
             showNotification(error.message || 'Contraseña incorrecta', 'error');
             document.getElementById('adminPassword').value = '';
@@ -298,6 +359,7 @@ function initializeAdmin() {
     // Logout
     logoutBtn.addEventListener('click', () => {
         adminAuthenticated = false;
+        document.body.classList.remove('admin-active');
         document.getElementById('adminPanel').classList.add('hidden');
         document.getElementById('adminLogin').classList.remove('hidden');
         loginForm.reset();

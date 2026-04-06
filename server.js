@@ -264,6 +264,12 @@ app.post('/api/paintings/:id/comments', (req, res) => {
 // DELETE comentario
 app.delete('/api/comments/:id', (req, res) => {
     const { id } = req.params;
+    const { password } = req.body || {};
+
+    if (password !== ADMIN_PASSWORD) {
+        res.status(401).json({ error: 'Contraseña incorrecta' });
+        return;
+    }
 
     db.run(
         `DELETE FROM comments WHERE id = ?`,
